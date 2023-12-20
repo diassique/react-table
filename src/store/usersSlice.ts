@@ -1,4 +1,3 @@
-// src/features/users/usersSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -14,6 +13,7 @@ type UsersState = {
   data: User[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null | undefined;
+  currentPage: number;
 };
 
 export const fetchUsers = createAsyncThunk<User[]>('users/fetchUsers', async () => {
@@ -25,12 +25,17 @@ const initialState: UsersState = {
   data: [],
   status: 'idle',
   error: null,
+  currentPage: 1,
 };
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -46,5 +51,7 @@ const usersSlice = createSlice({
       });
   },
 });
+
+export const { setCurrentPage } = usersSlice.actions;
 
 export default usersSlice.reducer;
