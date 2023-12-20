@@ -1,13 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../types';
 import axios from 'axios';
-
-export type User = {
-  _id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-};
 
 type UsersState = {
   data: User[];
